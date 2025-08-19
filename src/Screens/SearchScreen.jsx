@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
 import { ContextApi } from '../Context/ContextApi';
@@ -13,6 +13,8 @@ const SearchScreen = () => {
   console.log(tvGenresApi);
 
   const { width } = Dimensions.get('window');
+
+
   return (
     <View style={{ flex: 1, backgroundColor: '#030014' }}>
       <Header />
@@ -34,10 +36,10 @@ const SearchScreen = () => {
           numColumns={2}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={{}}
+              style={{ padding: 15, backgroundColor: '#1E1E2F', borderRadius: 10, margin: 5, width: (width / 2) - 20, alignItems: 'center', justifyContent: 'center' }}
               // onPress={() => handleGenrePress(item)}
             >
-              <Text style={{}}>{item}</Text>
+              <Text style={{ color: '#D6C7FF' ,textAlign:'center'}}>{item}</Text>
             </TouchableOpacity>
           )}
         />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, ScrollView, StyleSheet, } from 'react-native';
 import Header from '../components/Header';
 import useFetch from '../Hooks/useFetch';
@@ -8,16 +8,14 @@ import RenderTvFlatList from '../components/RenderTvFlatlist';
 
 const HomeScreen = (props) => {
   const popularUrl = getTmdbUrl('movie/popular');
-  const topRatedUrl = getTmdbUrl('movie/top_rated');
-  const upcomingUrl = getTmdbUrl('movie/upcoming');
+  const topRatedUrl = getTmdbUrl('movie/top_rated');  
   const popularTvUrl = getTmdbUrl('tv/popular');
   const topRatedTvUrl = getTmdbUrl('tv/top_rated');
   const { data: popularMovies, loading: popularLoading, error: popularError } = useFetch(popularUrl);
   const { data: topRatedMovies, loading: topRatedLoading, error: topRatedError } = useFetch(topRatedUrl);
-  const { data: upcomingMovies, loading: upcomingLoading, error: upcomingError } = useFetch(upcomingUrl);
   const { data: popularTvShows, loading: popularTvLoading, error: popularTvError } = useFetch(popularTvUrl);
   const { data: topRatedTvShows, loading: topRatedTvLoading, error: topRatedTvError } = useFetch(topRatedTvUrl);
-  const isLoading = popularLoading || topRatedLoading || upcomingLoading || popularTvLoading || topRatedTvLoading;
+  const isLoading = popularLoading || topRatedLoading || popularTvLoading || topRatedTvLoading;
   return (
     <View style={styles.container}>
       <Header />
@@ -33,11 +31,6 @@ const HomeScreen = (props) => {
           </Text>
           <RenderMovieFlatList data={topRatedMovies} nav={props.navigation} />
           {topRatedError ? <Text style={styles.errorText}>Please try again later</Text> : null}
-          <Text style={styles.header}>
-            Upcoming Movies
-          </Text>
-          <RenderMovieFlatList data={upcomingMovies} nav={props.navigation} />
-          {upcomingError ? <Text style={styles.errorText}>Please try again later</Text> : null}
           <Text style={styles.header}>
             Popular Tv Shows
           </Text>

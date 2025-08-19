@@ -118,7 +118,7 @@ const MovieDetailScreen = (props) => {
                 ⭐ {details.vote_average?.toFixed(1)} ({details.vote_count} votes)
               </Text>
             </View>
-            <TouchableOpacity onPress={() => {addToWatchlist({...details, type: 'Movie'})}} style={styles.trailerButton}>
+            <TouchableOpacity onPress={() => {addToWatchlist({...details, type: 'Movie',watchList:'true'})}} style={styles.trailerButton}>
               <MaterialCommunityIcons name="movie-open-play" size={24} color="#ffffff" />
               <Text style={styles.trailerButtonText}>Add to Watchlist</Text>
             </TouchableOpacity>

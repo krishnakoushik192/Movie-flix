@@ -7,100 +7,100 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ContextApi } from '../Context/ContextApi';
+import { Swipeable } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
 
 const WatchListScreen = (props) => {
   const { watchlist, removeFromWatchlist } = useContext(ContextApi);
-  const RenderMovie = ({movie}) => (
-    <Pressable
-      key={movie.id}
-      style={({ pressed }) => [
-        styles.movieItem,
-        pressed && { opacity: 0.8 },
-      ]}
-      onPress={() =>
-        props.navigation.navigate('MovieDetail', { id: movie.id })
-      }
-    >
-      {/* Movie Poster */}
-      <Image
-        source={{
-          uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        }}
-        style={styles.poster}
-      />
-
-      {/* Movie Info */}
-      <View style={styles.info}>
-        <Text style={styles.movieTitle} numberOfLines={2}>
-          {movie.title}
-        </Text>
-        <Text style={styles.meta}>
-          {movie.release_date?.slice(0, 4)}
-        </Text>
-        <Text style={styles.meta}>{movie.type}</Text>
-      </View>
-
-      {/* Delete Button */}
+  const RenderMovie = ({ movie }) => {
+    const rightActions = () => (
+      <TouchableOpacity onPress={() => removeFromWatchlist(movie.id)} style={styles.deleteButton}>
+        <Icon name="trash" size={24} color="white" />
+        <Text style={{ color: 'white', marginLeft: 5 }}>Remove</Text>
+      </TouchableOpacity>
+    )
+    return (
+      <Swipeable renderRightActions={rightActions}>
+        <Pressable
+          key={movie.id}
+          style={({ pressed }) => [
+            styles.movieItem,
+            pressed && { opacity: 0.8 },
+          ]}
+          onPress={() =>
+            props.navigation.navigate('MovieDetail', { id: movie.id })
+          }
+        >
+          {/* Movie Poster */}
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            }}
+            style={styles.poster}
+          />
+          {/* Movie Info */}
+          <View style={styles.info}>
+            <Text style={styles.movieTitle} numberOfLines={2}>
+              {movie.title}
+            </Text>
+            <Text style={styles.meta}>
+              {movie.release_date?.slice(0, 4)}
+            </Text>
+            <Text style={styles.meta}>{movie.type}</Text>
+          </View>
+        </Pressable>
+      </Swipeable>
+    )
+  }
+  const RenderTVShow = ({ tv }) => {
+    const rightActions = () => (
+      <TouchableOpacity onPress={() => removeFromWatchlist(tv.id)} style={styles.deleteButton}>
+        <Icon name="trash" size={24} color="white" />
+        <Text style={{ color: 'white', marginLeft: 5 }}>Remove</Text>
+      </TouchableOpacity>
+    )
+    return (
+      <Swipeable renderRightActions={rightActions}>
       <Pressable
-        onPress={() => removeFromWatchlist(movie.id)}
+        key={tv.id}
         style={({ pressed }) => [
-          styles.deleteButton,
-          pressed && { opacity: 0.7 },
+          styles.movieItem,
+          pressed && { opacity: 0.8 },
         ]}
+        onPress={() =>
+          props.navigation.navigate('TvDetail', { id: tv.id })
+        }
       >
-        <Icon name="trash" size={22} color="#D6C7FF" />
+        {/* Movie Poster */}
+        <Image
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500${tv.poster_path}`,
+          }}
+          style={styles.poster}
+        />
+
+        {/* Movie Info */}
+        <View style={styles.info}>
+          <Text style={styles.movieTitle} numberOfLines={2}>
+            {tv.name}
+          </Text>
+          <Text style={styles.meta}>
+            {tv.first_air_date?.slice(0, 4)}
+          </Text>
+          <Text style={styles.meta}>{tv.type}</Text>
+        </View>
+
       </Pressable>
-    </Pressable>
-  )
-
-  const RenderTVShow = ({movie}) => (
-    <Pressable
-      key={movie.id}
-      style={({ pressed }) => [
-        styles.movieItem,
-        pressed && { opacity: 0.8 },
-      ]}
-      onPress={() =>
-        props.navigation.navigate('TvDetail', { id: movie.id })
-      }
-    >
-      {/* Movie Poster */}
-      <Image
-        source={{
-          uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        }}
-        style={styles.poster}
-      />
-
-      {/* Movie Info */}
-      <View style={styles.info}>
-        <Text style={styles.movieTitle} numberOfLines={2}>
-          {movie.name}
-        </Text>
-        <Text style={styles.meta}>
-          {movie.first_air_date?.slice(0, 4)}
-        </Text>
-        <Text style={styles.meta}>{movie.type}</Text>
-      </View>
-
-      {/* Delete Button */}
-      <Pressable
-        onPress={() => removeFromWatchlist(movie.id)}
-        style={({ pressed }) => [
-          styles.deleteButton,
-          pressed && { opacity: 0.7 },
-        ]}
-      >
-        <Icon name="trash" size={22} color="#D6C7FF" />
-      </Pressable>
-    </Pressable>
-  )
+      </Swipeable>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -111,13 +111,18 @@ const WatchListScreen = (props) => {
       {watchlist.length === 0 ? (
         <Text style={styles.emptyText}>Your watchlist is empty.</Text>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {watchlist.map((movie) => (
-            movie.type === 'Movie' ? (
-              <RenderMovie  movie={movie}/>
-            ) : <RenderTVShow movie={movie}/>
-          ))}
-        </ScrollView>
+        <FlatList
+          data={watchlist}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            item.type === 'Movie' ? (
+              <RenderMovie movie={item} />
+            ) : (
+              <RenderTVShow tv={item} />
+            )
+          )}
+          contentContainerStyle={styles.scrollContainer}
+        />
       )}
     </View>
   );
@@ -180,5 +185,8 @@ const styles = StyleSheet.create({
   deleteButton: {
     padding: 6,
     alignSelf: 'center',
+    backgroundColor: '#FF3B30',
+    flexDirection: 'row',
+    borderRadius: 8,
   },
 });

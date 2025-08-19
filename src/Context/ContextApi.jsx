@@ -50,7 +50,7 @@ export const ContextProvider = ({ children }) => {
     }, []);
 
     return (
-        <ContextApi.Provider value={{ movieGenresApi, tvGenresApi, watchlist, setWatchlist , removeFromWatchlist, addToWatchlist }}>
+        <ContextApi.Provider value={{ movieGenresApi, tvGenresApi, watchlist , removeFromWatchlist, addToWatchlist }}>
             {children}
         </ContextApi.Provider>
     );
