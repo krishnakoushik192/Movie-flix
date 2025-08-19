@@ -1,12 +1,184 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
+import Header from '../components/Header';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { ContextApi } from '../Context/ContextApi';
 
-const WatchListScreen = () => {
+const { width } = Dimensions.get('window');
+
+const WatchListScreen = (props) => {
+  const { watchlist, removeFromWatchlist } = useContext(ContextApi);
+  const RenderMovie = ({movie}) => (
+    <Pressable
+      key={movie.id}
+      style={({ pressed }) => [
+        styles.movieItem,
+        pressed && { opacity: 0.8 },
+      ]}
+      onPress={() =>
+        props.navigation.navigate('MovieDetail', { id: movie.id })
+      }
+    >
+      {/* Movie Poster */}
+      <Image
+        source={{
+          uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }}
+        style={styles.poster}
+      />
+
+      {/* Movie Info */}
+      <View style={styles.info}>
+        <Text style={styles.movieTitle} numberOfLines={2}>
+          {movie.title}
+        </Text>
+        <Text style={styles.meta}>
+          {movie.release_date?.slice(0, 4)}
+        </Text>
+        <Text style={styles.meta}>{movie.type}</Text>
+      </View>
+
+      {/* Delete Button */}
+      <Pressable
+        onPress={() => removeFromWatchlist(movie.id)}
+        style={({ pressed }) => [
+          styles.deleteButton,
+          pressed && { opacity: 0.7 },
+        ]}
+      >
+        <Icon name="trash" size={22} color="#D6C7FF" />
+      </Pressable>
+    </Pressable>
+  )
+
+  const RenderTVShow = ({movie}) => (
+    <Pressable
+      key={movie.id}
+      style={({ pressed }) => [
+        styles.movieItem,
+        pressed && { opacity: 0.8 },
+      ]}
+      onPress={() =>
+        props.navigation.navigate('TvDetail', { id: movie.id })
+      }
+    >
+      {/* Movie Poster */}
+      <Image
+        source={{
+          uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }}
+        style={styles.poster}
+      />
+
+      {/* Movie Info */}
+      <View style={styles.info}>
+        <Text style={styles.movieTitle} numberOfLines={2}>
+          {movie.name}
+        </Text>
+        <Text style={styles.meta}>
+          {movie.first_air_date?.slice(0, 4)}
+        </Text>
+        <Text style={styles.meta}>{movie.type}</Text>
+      </View>
+
+      {/* Delete Button */}
+      <Pressable
+        onPress={() => removeFromWatchlist(movie.id)}
+        style={({ pressed }) => [
+          styles.deleteButton,
+          pressed && { opacity: 0.7 },
+        ]}
+      >
+        <Icon name="trash" size={22} color="#D6C7FF" />
+      </Pressable>
+    </Pressable>
+  )
+
   return (
-    <View>
-      <Text>Hello, World!</Text>
+    <View style={styles.container}>
+      <Header />
+
+      <Text style={styles.title}>Your Watchlist</Text>
+
+      {watchlist.length === 0 ? (
+        <Text style={styles.emptyText}>Your watchlist is empty.</Text>
+      ) : (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {watchlist.map((movie) => (
+            movie.type === 'Movie' ? (
+              <RenderMovie  movie={movie}/>
+            ) : <RenderTVShow movie={movie}/>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
 
 export default WatchListScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#030014',
+  },
+  title: {
+    color: '#D6C7FF',
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 20,
+    fontFamily: 'Montserrat-Bold',
+  },
+  emptyText: {
+    color: '#D6C7FF',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 20,
+    fontFamily: 'Montserrat-Regular',
+  },
+  scrollContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  movieItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#160931ff',
+    borderRadius: 12,
+    padding: 10,
+    marginBottom: 12,
+  },
+  poster: {
+    width: width * 0.22,
+    height: width * 0.33,
+    borderRadius: 8,
+  },
+  info: {
+    flex: 1,
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
+  movieTitle: {
+    color: '#D6C7FF',
+    fontSize: 18,
+    fontFamily: 'Montserrat-Regular',
+  },
+  meta: {
+    color: '#AFA2D5',
+    fontSize: 14,
+    fontFamily: 'Montserrat-Regular',
+    marginTop: 2,
+  },
+  deleteButton: {
+    padding: 6,
+    alignSelf: 'center',
+  },
+});

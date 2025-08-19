@@ -1,14 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/Navigation/StackNavigator';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {ContextProvider } from './src/Context/ContextApi';
 
 function App() {
   return (
-   <SafeAreaView style={{flex:1,backgroundColor:'#030014'}}>
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
-   </SafeAreaView>
+    <ContextProvider>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </ContextProvider>
   );
 }
 

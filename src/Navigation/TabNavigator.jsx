@@ -1,79 +1,90 @@
 import React from 'react';
 import {StyleSheet,View,TouchableOpacity,Text} from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import BookmarkScreen from '../Screens/BookmarkScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import WatchListScreen from '../Screens/WatchListScreen';
 import HomeScreen from '../Screens/HomeScreen';
 import LinearGradient from 'react-native-linear-gradient';
-
+import AccountsPage from '../Screens/AccountsPage';
+import SearchScreen from '../Screens/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
-    <View style={styles.tabBar}>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const isFocused = state.index === index;
+    <View style={[styles.tabBarContainer]}>
+      <View style={styles.tabBar}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const isFocused = state.index === index;
+          const onPress = () => {
+            if (!isFocused) {
+              navigation.navigate(route.name);
+            }
+          };
 
-        const onPress = () => {
-          if (!isFocused) {
-            navigation.navigate(route.name);
-          }
-        };
-
-        const iconName = {
-          Home: 'home',
-          WatchList: 'playlist-add-check',
-          Bookmarks: 'bookmark',
-        }[route.name];
-        return (
-          <TouchableOpacity
-            key={route.key}
-            accessibilityRole="button"
-            onPress={onPress}
-            style={styles.tabItem}
-          >
-            {isFocused ? (
-              <LinearGradient
-                colors={['#C084FC', '#A855F7']}
-                style={styles.activeTab}
-              >
-                <Icon name={iconName} size={20} color="#000" />
-                <Text style={styles.activeLabel}>{route.name}</Text>
-              </LinearGradient>
-            ) : (
-              <View style={styles.inactiveTab}>
-                <Icon name={iconName} size={20} color="#94a3b8" />
-              </View>
-            )}
-          </TouchableOpacity>
-        );
-      })}
+          const iconName = {
+            Home: isFocused ? 'home-variant' : 'home-variant-outline',
+            WatchList: isFocused ? 'movie-check' : 'movie-check-outline',
+            Profile: 'ticket-account' ,
+            Search: isFocused ? 'movie-search' : 'movie-search-outline',
+          }[route.name];
+          return (
+            <TouchableOpacity
+              key={route.key}
+              accessibilityRole="button"
+              onPress={onPress}
+              style={styles.tabItem}
+            >
+              {isFocused ? (
+                <LinearGradient
+                  colors={['#C084FC', '#A855F7']}
+                  style={styles.activeTab}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  <MaterialCommunityIcons name={iconName} size={26} color="#0F0D23" />
+                  <Text style={styles.activeLabel}>{route.name}</Text>
+                </LinearGradient>
+              ) : (
+                <View style={styles.inactiveTab}>
+                  <MaterialCommunityIcons name={iconName} size={26} color="#A8B5DB" />
+                </View>
+              )}
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 };
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator tabBar={props => <CustomTabBar {...props} />} screenOptions={{ headerShown: false }}>
+    <Tab.Navigator tabBar={props => <CustomTabBar {...props} />} screenOptions={{ headerShown: false, tabBarStyle:{ backgroundColor: 'transparent'}}}>
         <Tab.Screen name='Home' component={HomeScreen}/>
         <Tab.Screen name='WatchList' component={WatchListScreen}/>
-        <Tab.Screen name='Bookmarks' component={BookmarkScreen}/>
+        <Tab.Screen name='Search' component={SearchScreen}/>
+        <Tab.Screen name='Profile' component={AccountsPage}/>
     </Tab.Navigator>
   );
 };
 
 export default TabNavigator;
 const styles = StyleSheet.create({
+  tabBarContainer: {
+    backgroundColor: 'black',
+  },
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: '#0f0f1c',
+    backgroundColor: '#1a1a37ff',
     borderRadius: 30,
-    margin: 16,
-    padding: 10,
+    margin: 5,
+    marginBottom: 25,
+    padding: 5,
+    // paddingHorizontal: ,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    height: 60,
+    // alignItems: 'center',
   },
   tabItem: {
     flex: 1,
@@ -84,13 +95,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#C084FC',
     borderRadius: 25,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
   },
   activeLabel: {
-    color: '#000',
-    marginLeft: 8,
+    color: '#0F0D23',
+    // marginLeft: 8,
     fontWeight: 'bold',
+    fontSize: 16,
   },
   inactiveTab: {
     padding: 10,

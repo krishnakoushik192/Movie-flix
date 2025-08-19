@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const BookmarkScreen = () => {
+const AccountsPage = () => {
   return (
     <View>
       <Text>Hello, World!</Text>
@@ -9,4 +9,4 @@ const BookmarkScreen = () => {
   );
 };
 
-export default BookmarkScreen;
+export default AccountsPage;
