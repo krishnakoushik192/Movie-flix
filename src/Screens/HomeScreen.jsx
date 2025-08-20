@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, ActivityIndicator, ScrollView, StyleSheet, } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, StyleSheet, } from 'react-native';
 import Header from '../components/Header';
 import useFetch from '../Hooks/useFetch';
 import { getTmdbUrl } from '../utills/tmdbUrls';

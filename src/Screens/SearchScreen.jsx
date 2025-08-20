@@ -1,16 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
-import { ContextApi } from '../Context/ContextApi';
 
-const Genres = ["Action and adventure", "Anime", "Comedy", "Documentary", "Drama", "Fantasy", "Kids", "Mystery and thrillers", "Romance", "Science fiction"]
+const Genres = ["Action and Adventure", "Anime", "Comedy", "Documentary", "Drama", "Fantasy", "Kids", "Mystery and Thrillers", "Romance", "Science Fiction"]
 
-const SearchScreen = () => {
-  const { movieGenresApi, tvGenresApi } = useContext(ContextApi);
-  const [search, setSearch] = useState('')
-  console.log(movieGenresApi);
-  console.log(tvGenresApi);
+const SearchScreen = (props) => {
+  const [search, setSearch] = useState('');
 
   const { width } = Dimensions.get('window');
 
@@ -26,10 +22,15 @@ const SearchScreen = () => {
           style={styles.input}
           value={search}
           onChangeText={setSearch}
+          onSubmitEditing={() => {
+            if (search.trim()) {
+              props.navigation.navigate('SearchDetails', { query: search, type: 'bar' });
+            }
+            setSearch('');
+          }}
         />
       </View>
       <View style={styles.container}>
-        <Text style={styles.heading}>Genres</Text>
         <FlatList
           data={Genres}
           keyExtractor={(item,id) => id}
@@ -37,11 +38,13 @@ const SearchScreen = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={{ padding: 15, backgroundColor: '#1E1E2F', borderRadius: 10, margin: 5, width: (width / 2) - 20, alignItems: 'center', justifyContent: 'center' }}
-              // onPress={() => handleGenrePress(item)}
+              onPress={() => props.navigation.navigate('SearchDetails', { query: item , type: 'genre' })}
             >
               <Text style={{ color: '#D6C7FF' ,textAlign:'center'}}>{item}</Text>
             </TouchableOpacity>
           )}
+          contentContainerStyle={{ padding: 10 }}
+          ListHeaderComponent={<Text style={{ color: '#D6C7FF', fontSize: 24, marginBottom: 10,fontFamily:'Montserrat-Bold',marginHorizontal: 10 }}>Genres</Text>}
         />
       </View>
     </View>

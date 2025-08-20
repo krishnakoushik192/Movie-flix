@@ -8,6 +8,33 @@ export const ContextProvider = ({ children }) => {
     const [movieGenresApi, setMovieGenresApi] = useState([]);
     const [tvGenresApi, setTvGenresApi] = useState([]);
     const [watchlist, setWatchlist] = useState([]);
+    const genres = {
+        movie: {
+            "Action and Adventure": "28,12", // Action + Adventure
+            "Anime": "16", // Animation
+            "Comedy": "35",
+            "Documentary": "99",
+            "Drama": "18",
+            "Fantasy": "14",
+            "Kids": "10751", // Family
+            "Mystery and Thrillers": "9648,53", // Mystery + Thriller
+            "Romance": "10749",
+            "Science Fiction": "878"
+        },
+        tv: {
+            "Action and Adventure": "10759",
+            "Anime": "16", // Animation
+            "Comedy": "35",
+            "Documentary": "99",
+            "Drama": "18",
+            "Fantasy": "10765",
+            "Kids": "10762",
+            "Mystery and Thrillers": "9648,80", // Mystery + Crime
+            "Romance": "10749",
+            "Science Fiction": "10765" // Sci-Fi & Fantasy
+        }
+    };
+
 
     const addToWatchlist = (movie) => {
         if (!watchlist.some(item => item.id === movie.id)) {
@@ -50,7 +77,7 @@ export const ContextProvider = ({ children }) => {
     }, []);
 
     return (
-        <ContextApi.Provider value={{ movieGenresApi, tvGenresApi, watchlist , removeFromWatchlist, addToWatchlist }}>
+        <ContextApi.Provider value={{ movieGenresApi, tvGenresApi, watchlist, removeFromWatchlist, addToWatchlist, genres }}>
             {children}
         </ContextApi.Provider>
     );

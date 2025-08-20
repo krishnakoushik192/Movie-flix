@@ -5,6 +5,7 @@ import TabNavigator from './TabNavigator';
 import SplashScreen from '../Screens/SplashScreen';
 import MovieDetailScreen from '../Screens/MovieDetailScreen';
 import TvDetailsScreen from '../Screens/TvDetailScreen';
+import SearchDetails from '../Screens/SearchDetails';
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {
@@ -15,6 +16,7 @@ const StackNavigator = () => {
         <Stack.Screen name='Tabs' component={TabNavigator}/>
         <Stack.Screen name='MovieDetail' component={MovieDetailScreen}/>
         <Stack.Screen name='TvDetail' component={TvDetailsScreen}/>
+        <Stack.Screen name='SearchDetails' component={SearchDetails}/>
     </Stack.Navigator>
   );
 };
