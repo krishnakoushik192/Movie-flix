@@ -7,7 +7,7 @@ const RenderLoginBox = ({ email, setEmail, password, setPassword, navigation }) 
   const [showPassword, setShowPassword] = useState(false);
   return (
     <View style={styles.loginBox}>
-      <Text style={[styles.loginTitle, { fontFamily: 'Montserrat-BoldItalic' }]}>
+      <Text style={styles.loginTitle}>
         Login
       </Text>
 
@@ -53,7 +53,7 @@ const RenderLoginBox = ({ email, setEmail, password, setPassword, navigation }) 
         end={{ x: 1, y: 0 }}
       >
         <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Tabs')}>
-          <Text style={[styles.loginButtonText, { fontFamily: 'Montserrat-BoldItalic' }]}>
+          <Text style={styles.loginButtonText}>
             Login
           </Text>
         </TouchableOpacity>
@@ -117,8 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 80,
     color: '#D6C7FF',
     fontSize: 26,
-    fontWeight: 'bold',
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'Montserrat-BoldItalic',
     marginHorizontal: 10,
   },
   loginBox: {
@@ -132,8 +131,7 @@ const styles = StyleSheet.create({
   },
   loginTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'Montserrat-BoldItalic',
     marginBottom: 10,
     textAlign: 'center',
     color: 'white',
@@ -164,8 +162,7 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     color: 'white',
-    fontWeight: 'bold',
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'Montserrat-BoldItalic',
     fontSize: 22,
   },
 });

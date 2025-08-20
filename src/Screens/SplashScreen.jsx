@@ -21,7 +21,7 @@ const SplashScreen = (props) => {
             source={require('../assets/Logo.png')}
             resizeMode='contain'
           />
-        <Text style={{ marginHorizontal: 8, color: '#D6C7FF', fontSize: 38, fontWeight: 'bold', fontFamily: 'Montserrat-Bold' }}>Movie Filx</Text>
+        <Text style={{ marginHorizontal: 8, color: '#D6C7FF', fontSize: 38,  fontFamily: 'Montserrat-Bold' }}>Movie Filx</Text>
       </View>
       </ImageBackground>
     </View>

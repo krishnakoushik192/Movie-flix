@@ -5,7 +5,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import WatchListScreen from '../Screens/WatchListScreen';
 import HomeScreen from '../Screens/HomeScreen';
 import LinearGradient from 'react-native-linear-gradient';
-import AccountsPage from '../Screens/AccountsPage';
 import SearchScreen from '../Screens/SearchScreen';
 
 const Tab = createBottomTabNavigator();
@@ -26,7 +25,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             Home: isFocused ? 'home-variant' : 'home-variant-outline',
             WatchList: isFocused ? 'movie-check' : 'movie-check-outline',
             Profile: 'ticket-account' ,
-            Search: isFocused ? 'movie-search' : 'movie-search-outline',
           }[route.name];
           return (
             <TouchableOpacity
@@ -64,7 +62,6 @@ const TabNavigator = () => {
         <Tab.Screen name='Home' component={HomeScreen}/>
         <Tab.Screen name='WatchList' component={WatchListScreen}/>
         <Tab.Screen name='Search' component={SearchScreen}/>
-        <Tab.Screen name='Profile' component={AccountsPage}/>
     </Tab.Navigator>
   );
 };
