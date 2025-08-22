@@ -1,14 +1,24 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, ImageBackground } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = (props) => {
   const navigation = props.navigation; 
+  const handleNavigation = async () => {
+   let loginToken = await AsyncStorage.getItem('isLoggedIn');
+   console.log('Login Token:', loginToken);
+   if (loginToken) {
+     navigation.replace('Tabs'); 
+   } else {
+     navigation.replace('Login');
+   }
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('Login');
+      handleNavigation();
     }, 2000);
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#030014', justifyContent: 'center', alignItems: 'center' }}>

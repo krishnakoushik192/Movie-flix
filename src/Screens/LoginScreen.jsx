@@ -2,9 +2,34 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, Pressable, Keyboard } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RenderLoginBox = ({ email, setEmail, password, setPassword, navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const handleLogin = async () => {
+    if (!email || !password) {
+    setError('Please enter both email and password');
+    return;
+  }
+
+  // Email regex check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setError('Please enter a valid email address');
+    return;
+  }
+
+  if (password.length < 6) {
+    setError('Password must be at least 6 characters long');
+    return;
+  }
+
+  // If everything is valid, clear error
+  setError('');
+    await AsyncStorage.setItem('isLoggedIn', 'true');
+    navigation.navigate('Tabs');
+  };
   return (
     <View style={styles.loginBox}>
       <Text style={styles.loginTitle}>
@@ -52,12 +77,13 @@ const RenderLoginBox = ({ email, setEmail, password, setPassword, navigation }) 
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 0 }}
       >
-        <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Tabs')}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>
             Login
           </Text>
         </TouchableOpacity>
       </LinearGradient>
+      <Text style={{ color: 'red', textAlign: 'center' }}>{error}</Text>
     </View>
   );
 };

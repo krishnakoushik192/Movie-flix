@@ -18,7 +18,7 @@ const HomeScreen = (props) => {
   const isLoading = popularLoading || topRatedLoading || popularTvLoading || topRatedTvLoading;
   return (
     <View style={styles.container}>
-      <Header />
+      <Header props={props} />
       {isLoading ? <ActivityIndicator color="#A855F7" size={'large'} /> :
         <ScrollView>
           <Text style={styles.header}>

@@ -24,7 +24,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           const iconName = {
             Home: isFocused ? 'home-variant' : 'home-variant-outline',
             WatchList: isFocused ? 'movie-check' : 'movie-check-outline',
-            Profile: 'ticket-account' ,
+            Search: 'magnify' ,
           }[route.name];
           return (
             <TouchableOpacity

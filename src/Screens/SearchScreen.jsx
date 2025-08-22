@@ -13,7 +13,7 @@ const SearchScreen = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#030014' }}>
-      <Header />
+      <Header props={props} />
       <View style={styles.searchContainer}>
         <Icon name="search" size={20} color="#D6C7FF" style={styles.icon} />
         <TextInput

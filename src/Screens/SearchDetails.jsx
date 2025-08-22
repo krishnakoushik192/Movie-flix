@@ -9,7 +9,7 @@ const SearchDetails = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#030014' }}>
-      <Header />
+      <Header props={props} />
       <View style={{ padding: 10 }}>
         <Text style={{ color: '#D6C7FF', fontSize: 20, marginBottom: 10, fontFamily: 'Montserrat-Bold', marginHorizontal: 10 }}>
           Search Results for "{query}"
